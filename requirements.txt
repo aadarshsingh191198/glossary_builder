@@ -9,3 +9,4 @@ spacy
 keras
 scikit-learn
 flask
+gunicorn
