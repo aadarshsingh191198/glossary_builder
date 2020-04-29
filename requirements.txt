@@ -1,0 +1,12 @@
+transformers
+flair
+csv
+pandas
+pathlib
+numpy
+typing
+torch
+spacy
+warnings
+keras
+scikit-learn
