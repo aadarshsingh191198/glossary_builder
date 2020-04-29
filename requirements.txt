@@ -1,5 +1,5 @@
 transformers
-flair
+git+https://github.com/flairNLP/flair.git
 pandas
 pathlib
 numpy

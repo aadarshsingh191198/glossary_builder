@@ -120,35 +120,38 @@ def definition_extraction(sentence, override_classification = False):
   else:
     return None, None
       
-text = 'In chemistry, catenation is the bonding of atoms of the same element into a series, called a chain. A chain or a ring shape may be open if its ends are not bonded to each other (an open-chain compound), or closed if they are bonded in a ring (a cyclic compound). \
-Catenation occurs most readily with carbon, which forms covalent bonds with other carbon atoms to form longer chains and structures. This is the reason for the presence of the vast number of organic compounds in nature. \
-Carbon is most well known for its properties of catenation, with organic chemistry essentially being the study of catenated carbon structures (and known as catenae).\
- Carbon chains in biochemistry combine any of various other elements, such as hydrogen, oxygen, and biometals, onto the backbone of carbon, and proteins can combine multiple chains encoded by multiple genes (such as light chains and heavy chains making up antibodies). '
+def multi_definition_extraction(text):
+  tokens = nlp(text)
+  text = [sent.string.strip() for sent in tokens.sents]
+  print(text)
 
-tokens = nlp(text)
-text = [sent.string.strip() for sent in tokens.sents]
-print(text)
+  print('INPUT PARAGRAPH')
+  print('---------------------------------------------------------------------------')
+  for sent in text:
+    print(sent)
 
-print('INPUT PARAGRAPH')
-print('---------------------------------------------------------------------------')
-for sent in text:
-  print(sent)
+  print('GLOSSARY')
+  print('---------------------------------------------------------------------------')
 
-print('GLOSSARY')
-print('---------------------------------------------------------------------------')
+  df= pd.DataFrame()
+  terms = []
+  for sent in text:
+    term, definition = definition_extraction(sent, override_classification=True)
+    if term and definition :
+    # print(terms, definitions)
+      df = df.append({'Term': term, 'Definition': definition}, ignore_index=True)
+    elif term:
+      terms.append(term)
+  with pd.option_context('max_colwidth',100):
+    print(df[['Term','Definition']])
+  print('Terms without definitions', terms)
+    # print('++++++++++++++++++++++++++++++++++++++++++++')
 
-df= pd.DataFrame()
-terms = []
-for sent in text:
-  term, definition = definition_extraction(sent, override_classification=True)
-  if term and definition :
-  # print(terms, definitions)
-    df = df.append({'Term': term, 'Definition': definition}, ignore_index=True)
-  elif term:
-    terms.append(term)
-with pd.option_context('max_colwidth',100):
-  print(df[['Term','Definition']])
-print('Terms without definitions', terms)
-  # print('++++++++++++++++++++++++++++++++++++++++++++')
+if __name__ == '__main__':
+  multi_definition_extraction(text = 'In chemistry, catenation is the bonding of atoms of the same element into a series, called a chain. A chain or a ring shape may be open if its ends are not bonded to each other (an open-chain compound), or closed if they are bonded in a ring (a cyclic compound). \
+    Catenation occurs most readily with carbon, which forms covalent bonds with other carbon atoms to form longer chains and structures. This is the reason for the presence of the vast number of organic compounds in nature. \
+    Carbon is most well known for its properties of catenation, with organic chemistry essentially being the study of catenated carbon structures (and known as catenae).\
+    Carbon chains in biochemistry combine any of various other elements, such as hydrogen, oxygen, and biometals, onto the backbone of carbon, and proteins can combine multiple chains encoded by multiple genes (such as light chains and heavy chains making up antibodies). ')
+
 
 
