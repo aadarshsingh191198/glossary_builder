@@ -11,4 +11,4 @@ This is a project in which definition extraction is explored. Definition extract
 The source code related to the training of the models can be found in *notebooks* and the pretrained models on datasets
 can be found in *models*.
 
-The end to end pipeline is found in the *definition_extractor.py* script.
+The end to end pipeline can be found in the *definition_extractor.py* script.
