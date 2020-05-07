@@ -64,6 +64,28 @@ The end to end pipeline can be found in the *definition_extractor.py* script.
   ```
   python app.py
   ```
+11. Setting up production server - [Reference](https://towardsdatascience.com/deploying-a-custom-ml-prediction-service-on-google-cloud-ae3be7e6d38f)
+  ```
+  sudo apt-get install nginx-full
+  sudo /etc/init.d/nginx start
+  
+  # remove default configuration file
+  sudo rm /etc/nginx/sites-enabled/default
+  
+  # create a new site configuration file
+  sudo touch /etc/nginx/sites-available/flask_project
+  sudo ln -s /etc/nginx/sites-available/flask_project /etc/nginx/sites-enabled/flask_project
+  
+  # Edit configuration file
+  sudo nano /etc/nginx/sites-enabled/flask_project
+  
+  #Copy and paste the following code 
+    server {
+      location / {
+          proxy_pass http://0.0.0.0:8000;
+      }
+  }
+  ```
   Other reference links:
   
   1. Using conda with pip - [1](https://docs.conda.io/projects/conda/en/latest/user-guide/configuration/pip-interoperability.html) and [2](http://datumorphism.com/til/programming/python/python-anaconda-install-requirements/)
